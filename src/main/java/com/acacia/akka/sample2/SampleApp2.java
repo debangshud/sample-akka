@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SampleApp2 {
 
+    @Slf4j
     static class Alarm extends AbstractActor {
 
         static class Activity {
@@ -28,6 +29,7 @@ public class SampleApp2 {
             return receiveBuilder()
                     .match(Disable.class, disable -> log.info("Disabled"))
                     .match(Enable.class, enable -> log.info("Enabled"))
+                    .match(Activity.class,activity -> log.info("Activity"))
                     .build();
         }
 
@@ -42,5 +44,14 @@ public class SampleApp2 {
         ActorRef alarm = sample2.actorOf(Alarm.props(), "alarm");
         alarm.tell(new Alarm.Enable(), ActorRef.noSender());
         alarm.tell(new Alarm.Disable(), ActorRef.noSender());
+        alarm.tell(new Alarm.Activity(),ActorRef.noSender());
+
+        ActorRef enable = sample2.actorOf(Alarm.props(), "enable");
+        ActorRef disable = sample2.actorOf(Alarm.props(), "disable");
+        ActorRef activity = sample2.actorOf(Alarm.props(), "activity");
+        enable.tell(new Alarm.Enable(), ActorRef.noSender());
+        disable.tell(new Alarm.Disable(), ActorRef.noSender());
+        activity.tell(new Alarm.Activity(),ActorRef.noSender());
+
     }
 }

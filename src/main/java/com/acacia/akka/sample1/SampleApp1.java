@@ -1,15 +1,12 @@
 package com.acacia.akka.sample1;
 
-import akka.actor.AbstractLoggingActor;
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
+import akka.actor.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SampleApp1 {
 
-    static class Counter extends AbstractLoggingActor {
+    static class Counter extends AbstractActor {
         private int counter = 0;
 
         // protocol
@@ -22,7 +19,7 @@ public class SampleApp1 {
         }
 
         private void onMesssage(Counter.Message message) throws InterruptedException {
-//            Thread.sleep(1000);
+            Thread.sleep(1000);
             counter++;
             log.info("Increased counter {}", counter);
         }
